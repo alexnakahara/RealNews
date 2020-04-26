@@ -36,8 +36,7 @@ public class ComentarioDAO {
 	}
 	
 	public ArrayList<Comentario> listComentarios(int id_noticia) {
-
-		String query = "SELECT * FROM comentario WHERE fk_noticia_id =?";
+		String query = "SELECT * FROM comentario WHERE fk_noticia_id =? ORDER BY id DESC ";
 
 		try (PreparedStatement pst = conexao.prepareStatement(query)) {
 			pst.setInt(1, id_noticia);

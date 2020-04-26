@@ -17,7 +17,7 @@ public class NoticiaDAO {
 
 	public ArrayList<Noticia> listNoticias() {
 
-		String query = "SELECT * FROM noticia";
+		String query = "SELECT * FROM noticia ORDER BY id DESC";
 
 		try (PreparedStatement pst = conexao.prepareStatement(query)) {
 

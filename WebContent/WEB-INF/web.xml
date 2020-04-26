@@ -6,15 +6,22 @@
          version="3.1">
 
    <servlet>
-      <servlet-name>Noticias</servlet-name>
+      <servlet-name>Noticia</servlet-name>
       <servlet-class>servlets.NoticiaServlet</servlet-class>
    </servlet>
- 
-   <!-- Note: All <servlet> elements MUST be grouped together and
-         placed IN FRONT of the <servlet-mapping> elements -->
+   
+   <servlet>
+      <servlet-name>Comentario</servlet-name>
+      <servlet-class>servlets.ComentariosServlet</servlet-class>
+   </servlet>
  
    <servlet-mapping>
-      <servlet-name>Noticias</servlet-name>
+      <servlet-name>Noticia</servlet-name>
       <url-pattern>/noticias</url-pattern>
+   </servlet-mapping>
+   
+   <servlet-mapping>
+      <servlet-name>Comentario</servlet-name>
+      <url-pattern>/comentarios</url-pattern>
    </servlet-mapping>
 </web-app>
