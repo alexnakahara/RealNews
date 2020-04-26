@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,6 +36,7 @@ public class NoticiaServlet extends HttpServlet {
 			
 			for (Noticia i : lista) {
 				builder.append("<div class='-content-noticias'>" +
+						"<div class='d-flex justify-content-end font-weight-light'> Notícia Id: " + i.getId() + "</div>"+
 						"<div class='body-noticia'>" +
 						"<div class='title-noticia'>"+ i.getTitulo() + "</div>"+
 						"<div class='descricao-noticia'>"+ i.getDescricao()+ "</div>"+
@@ -76,12 +78,14 @@ public class NoticiaServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 
-		if (service.cadastrar(noticia)) {
-			out.print("Deu bomm!");
+		if (!service.cadastrar(noticia))
+			out.print("<center style='background-color: red; color: white;'>Não foi possível cadastrar a notícia, tente novamente!</center>");
+			
 
-		} else {
-			out.print("Deu ruim!");
-		}
+			RequestDispatcher rd = request.getRequestDispatcher("index.html");
+			rd.include(request, response);
+
+		
 
 	}
 
