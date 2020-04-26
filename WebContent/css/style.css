@@ -38,6 +38,7 @@
 .content-toggles {
 	display: flex;
 	align-self: flex-end;
+	margin-bottom: 16px;
 }
 
 #labelVerComentarios:hover {
@@ -46,12 +47,19 @@
 }
 
 .container-comentario {
-	display: flex;
-	align-self: flex-start;
-	padding: 12px;
+    flex-flow: column;
+    display: grid;
+    align-self: start;
+    grid-gap: 8px;
+    padding: 16px;
+    width: 100%;
 }
 
-.container-user {
+.-container-user{
+	display: flex;
+}
+
+.icon-user {
 	width: 45px;
 	height: 44px;
 	display: flex;
@@ -71,4 +79,7 @@
 	display: flex;
 	align-items: center;
 	margin-left: 10px;
+}
+.empty-comment{
+	text-align: center;
 }

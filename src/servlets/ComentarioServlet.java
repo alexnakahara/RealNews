@@ -72,11 +72,13 @@ public class ComentarioServlet extends HttpServlet {
 			if(lista!= null) {
 				
 				for (Comentario i : lista) {
-					builder.append("<div class='container-user'><i class=\"fas fa-user\"></i></div>"
-							+ "<div class='-comentario'>"
-							+ "<div class='font-weight-bold ml-1'>"+ i.getNome() + "</div>"+ 
-							"<div class='-comentario__text'>\"" + i.getTexto()+ "\"</div>"+ 
-							"</div>" 
+					builder.append("<div class='-container-user'>" +
+							 "<div class='icon-user'><i class=\"fas fa-user\"></i></div>" +
+							 "<div class='-comentario'>" +
+							 "<div class='font-weight-bold ml-1'>"+ i.getNome() + "</div>"+ 
+							 "<div class='-comentario__text'>\"" + i.getTexto()+ "\"</div>"+ 
+							 "</div>" +
+							 "</div>"
 							);
 				}
 				
