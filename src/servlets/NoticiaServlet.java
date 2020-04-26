@@ -34,13 +34,12 @@ public class NoticiaServlet extends HttpServlet {
 		if(lista!= null) {
 			
 			for (Noticia i : lista) {
-				builder.append("<div class='-content-noticias'>"
-						+ "<div>Titulo </div>" +
-						"<div>"+ i.getTitulo() + "</div>"+
-						"<div> Descrição</div>"+
-						"<div>"+ i.getDescricao()+ "</div>"+
-						"<div>Texto: </div>"+
-						"<div>"+ i.getTexto() + "</div>"+
+				builder.append("<div class='-content-noticias'>" +
+						"<div class='body-noticia'>" +
+						"<div class='title-noticia'>"+ i.getTitulo() + "</div>"+
+						"<div class='descricao-noticia'>"+ i.getDescricao()+ "</div>"+
+						"<div class='texto-noticia'>"+ i.getTexto() + "</div>"+
+						"</div>" +
 						"<div class='content-toggles'>"+
 						"<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#exampleModal\" onclick='sendId("+ i.getId() + ")'>"
 						+ "<i class=\"far fa-comment-alt\"></i> Comentar</button>"+
@@ -63,8 +62,9 @@ public class NoticiaServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		int id = Integer.parseInt(request.getParameter("id"));
+		
+		request.setCharacterEncoding("UTF-8");
+		int id = Integer.parseInt(request.getParameter("id_noticia"));
 		String titulo = request.getParameter("titulo");
 		String descricao = request.getParameter("descricao");
 		String texto = request.getParameter("texto");
@@ -73,7 +73,8 @@ public class NoticiaServlet extends HttpServlet {
 		Noticia noticia = new Noticia(id, titulo, descricao, texto);
 
 		PrintWriter out = response.getWriter();
-		response.setContentType("text/html");
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
 
 		if (service.cadastrar(noticia)) {
 			out.print("Deu bomm!");

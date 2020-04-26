@@ -46,7 +46,7 @@ public class ComentarioServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		if(id != null && id2 != null && nome != null && texto!= null ) {
+		if(id != null && id2 != null && nome != null && texto!= null ) {//cadastrar noticia
 			
 			int id_comentario = Integer.parseInt(id);
 			int id_noticia = Integer.parseInt(id2);
@@ -75,7 +75,7 @@ public class ComentarioServlet extends HttpServlet {
 					builder.append("<div class='-container-user'>" +
 							 "<div class='icon-user'><i class=\"fas fa-user\"></i></div>" +
 							 "<div class='-comentario'>" +
-							 "<div class='font-weight-bold ml-1'>"+ i.getNome() + "</div>"+ 
+							 "<div class='font-weight-bold ml-1'>"+ i.getNome() + "<span class='-spanIdComment'>(Id: " + i.getId() + ")</span></div>"+ 
 							 "<div class='-comentario__text'>\"" + i.getTexto()+ "\"</div>"+ 
 							 "</div>" +
 							 "</div>"

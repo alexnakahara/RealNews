@@ -61,7 +61,7 @@
 						aria-haspopup="true" aria-expanded="false"> Cadastrar </a>
 						<div class="dropdown-menu"
 							aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="#">Noticias</a> 
+							<a class="dropdown-item"data-toggle="modal" data-target="#modalNoticia" >Noticias</a> 
 							<a class="dropdown-item" data-toggle="modal" data-target="#exampleModal" onclick='openModalComentario()'>Comentarios</a>
 						</div></li>
 						
@@ -90,11 +90,11 @@
 	</header>
 
 	<div class="container">
-		<div id="titleNews">Últimas Notícias</div>
+		<div id="titleLastNews">Últimas Notícias</div>
 		<div id="bodyNoticia" class="container-noticias"></div>
 	</div>
 
-
+	<!-- Modal de Cadastro Comentario -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -140,8 +140,51 @@
 		</div>
 	</div>
 
-
-
+	<!-- Modal de Cadastro Noticias -->
+	<div class="modal fade" id="modalNoticia" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Adicionando Notícia</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="formNoticia" method="POST" action="NoticiaServlet.do">
+						<div class="form-group">
+							<label for="id" class="col-form-label">Id Notícia</label> <input
+								type="text" class="form-control" id="id_noticia"
+								name="id_noticia" placeholder="Digite um número indentificador para a notícia">
+						</div>
+						<div class="form-group">
+							<label for="id" class="col-form-label">Título</label> <input
+								type="text" class="form-control" id="titulo"
+								name="titulo" placeholder="Digite um título para a notícia">
+						</div>
+						<div class="form-group">
+							<label for="nome" class="col-form-label">Descrição</label> <input
+								type="text" class="form-control" placeholder="Digite uma descrição para a notícia"
+								id="nome" name="descricao">
+						</div>
+						<div class="form-group">
+							<label for="message-text" class="col-form-label">Texto</label>
+							<textarea class="form-control"
+								placeholder="Digite o texto da notícia" id="texto" name="texto"></textarea>
+						</div>
+				
+					<div class="modal-footer d-flex justify-content-between">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Fechar</button>
+						<button type="submit" class="btn btn-primary">Postar</button>
+					</div>
+				</form>
+			</div>
+			</div>
+		</div>
+	</div>
 
 
 
