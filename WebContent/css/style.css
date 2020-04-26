@@ -58,6 +58,9 @@
 .-container-user{
 	display: flex;
 }
+.-container-user:nth-child(even) {
+    background-color: aliceblue;
+}
 
 .icon-user {
 	width: 45px;
