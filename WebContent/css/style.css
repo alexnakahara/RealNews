@@ -1,3 +1,11 @@
+.navbar-brand {
+	color: #fff;
+	font-size: 19px;
+	font-weight: 900;
+	font-variant: all-small-caps;
+	font-variant: small-caps;
+}
+
 .container-noticias {
 	/* max-height: 350px;
 	overflow: auto */
@@ -55,12 +63,12 @@
 	margin-right: 3px;
 }
 
-.-comentario__text{
+.-comentario__text {
 	margin-top: -3px;
 }
 
-
-
-
-
-
+#labelVerComentarios {
+	display: flex;
+	align-items: center;
+	margin-left: 10px;
+}

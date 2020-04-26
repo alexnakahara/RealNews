@@ -42,6 +42,8 @@ public class NoticiaServlet extends HttpServlet {
 						"<div>Texto: </div>"+
 						"<div>"+ i.getTexto() + "</div>"+
 						"<div class='content-toggles'>"+
+						"<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#exampleModal\" onclick='sendId("+ i.getId() + ")'>"
+						+ "<i class=\"far fa-comment-alt\"></i> Comentar</button>"+
 						"<div id='labelVerComentarios' onclick='seeComments(" + i.getId() + ")'> Ver Comentários</div>" +
 						"</div>"+
 						"<div class='container-comentario' id='verComentarios"+ i.getId() + "'> </div>"+
