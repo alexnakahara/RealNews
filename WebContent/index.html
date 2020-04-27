@@ -39,7 +39,6 @@
 	}
 	
 	function openModalDelNoticia(){
-		const text = document.querySelector('#text-obs');
 		const form = document.querySelector('#formExcluir');
 		const title = document.querySelector('#titleExcluir');
 		const label = document.querySelector('#labelExcluir');
@@ -47,17 +46,18 @@
 		
 		title.innerHTML = 'Excluir Notícia';
 		form.action = 'NoticiaServlet.do';
-		text.innerHTML = '*Se a Notícia possuir comentários, eles serão deletados também*';
 		label.innerHTML = 'Id da Notícia';
 		input.placeholder = 'Digite o Id da notícia que deseja excluir';
 	}
 	
 	function openModalDelComentario(){
+		const text = document.querySelector('#text-obs');
 		const form = document.querySelector('#formExcluir');
 		const title = document.querySelector('#titleExcluir');
 		const label = document.querySelector('#labelExcluir');
 		const input = document.querySelector('#inputExcluir');
 		
+		text.innerHTML = null;
 		title.innerHTML = 'Excluir Comentário';
 		form.action = 'ComentarioServlet.do';
 		label.innerHTML = 'Id do Comentário';
@@ -272,7 +272,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div id="text-obs"></div>
+					<div id="text-obs">*Se a Notícia possuir comentários, eles serão deletados também*</div>
 					<form id="formExcluir" method="post" action="">
 						<div class="form-group">
 							<label for="id" class="col-form-label" id="labelExcluir"></label> 
