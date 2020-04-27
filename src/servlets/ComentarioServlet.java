@@ -46,7 +46,7 @@ public class ComentarioServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		if(id != null && id2 != null && nome != null && texto!= null ) {//cadastrar noticia
+		if(id != null && id2 != null && nome != null && texto!= null ) {//cadastrar comentário
 			
 			int id_comentario = Integer.parseInt(id);
 			int id_noticia = Integer.parseInt(id2);
@@ -56,8 +56,21 @@ public class ComentarioServlet extends HttpServlet {
 				out.print("<center style='background-color: red; color: white;'>Não foi possível comentar, tente novamente!</center>");
 			
 			RequestDispatcher rd = request.getRequestDispatcher("index.html");
+			out.print("<center style='background-color: green; color: white;'>O comentário foi postado com sucesso!</center>");
 			rd.include(request, response);
 			
+			
+		} else if ("delete".equals(request.getParameter("action"))) { //Deletar Comentario
+			
+			int id_comentario = Integer.parseInt(request.getParameter("id"));
+			if(!service.delete(id_comentario)) 
+				out.print("<center style='background-color: red; color: white;'>Não foi possível deletar o comentário, tente novamente!</center>");
+			
+			
+			RequestDispatcher rd = request.getRequestDispatcher("index.html");
+			out.print("<center style='background-color: green; color: white;'>O comentário foi deletado com sucesso!</center>");
+
+			rd.include(request, response);
 			
 		} else {
 			//lista todos comentarios de uma unica notícia a partir de um unico id enviado

@@ -107,7 +107,10 @@ public class NoticiaDAO {
 		}
 	}
 
-	public boolean delete(int id) {
+	public boolean deleteNoticia(int id) {
+		
+		if(!deleteComentario(id))
+			return false;
 
 		String inserir = "DELETE FROM noticia WHERE id= ?";
 
@@ -120,6 +123,25 @@ public class NoticiaDAO {
 		} catch (SQLException ex) {
 
 			System.err.println("não foi possivel deletar a partir do id");
+			ex.printStackTrace();
+			return false;
+		}
+
+	}
+	
+	public boolean deleteComentario(int id) {
+
+		String inserir = "DELETE FROM comentario WHERE fk_noticia_id= ?";
+
+		try (PreparedStatement pst = conexao.prepareStatement(inserir)) {
+
+			pst.setInt(1, id);
+			pst.execute();
+
+			return true;
+		} catch (SQLException ex) {
+
+			System.err.println("não foi possivel deletar os comentarios a partir do id");
 			ex.printStackTrace();
 			return false;
 		}

@@ -21,7 +21,7 @@ public class NoticiaService {
 		
 		if(id >= 1) {
 			NoticiaDAO dao = new NoticiaDAO();
-			return dao.delete(id) ? true : false;
+			return dao.deleteNoticia(id);
 		}
 		
 		return false;

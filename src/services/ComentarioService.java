@@ -1,7 +1,6 @@
 package services;
 
 import java.util.ArrayList;
-
 import dao.ComentarioDAO;
 import models.Comentario;
 
@@ -26,6 +25,16 @@ public class ComentarioService {
 
 		} else
 			return false;
+	}
+	
+	public boolean delete(int id) {
+		
+		if(id >= 1) {
+			ComentarioDAO dao = new ComentarioDAO();
+			return dao.delete(id);
+		}
+		
+		return false;
 	}
 
 }

@@ -37,6 +37,32 @@
 		let field = document.querySelector('#fieldIdNoticia');
 		field.style.display = 'block';
 	}
+	
+	function openModalDelNoticia(){
+		const text = document.querySelector('#text-obs');
+		const form = document.querySelector('#formExcluir');
+		const title = document.querySelector('#titleExcluir');
+		const label = document.querySelector('#labelExcluir');
+		const input = document.querySelector('#inputExcluir');
+		
+		title.innerHTML = 'Excluir Notícia';
+		form.action = 'NoticiaServlet.do';
+		text.innerHTML = '*Se a Notícia possuir comentários, eles serão deletados também*';
+		label.innerHTML = 'Id da Notícia';
+		input.placeholder = 'Digite o Id da notícia que deseja excluir';
+	}
+	
+	function openModalDelComentario(){
+		const form = document.querySelector('#formExcluir');
+		const title = document.querySelector('#titleExcluir');
+		const label = document.querySelector('#labelExcluir');
+		const input = document.querySelector('#inputExcluir');
+		
+		title.innerHTML = 'Excluir Comentário';
+		form.action = 'ComentarioServlet.do';
+		label.innerHTML = 'Id do Comentário';
+		input.placeholder = 'Digite o Id do comentário que deseja excluir';
+	}
 </script>
 
 </head>
@@ -61,8 +87,8 @@
 						aria-haspopup="true" aria-expanded="false"> Cadastrar </a>
 						<div class="dropdown-menu"
 							aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item"data-toggle="modal" data-target="#modalNoticia" >Noticia</a> 
-							<a class="dropdown-item" data-toggle="modal" data-target="#exampleModal" onclick='openModalComentario()'>Comentario</a>
+							<a class="dropdown-item"data-toggle="modal" data-target="#modalNoticia" >Notícia</a> 
+							<a class="dropdown-item" data-toggle="modal" data-target="#exampleModal" onclick='openModalComentario()'>Comentário</a>
 						</div></li>
 						
 					<li class="nav-item dropdown"><a
@@ -71,8 +97,8 @@
 						aria-haspopup="true" aria-expanded="false"> Alterar </a>
 						<div class="dropdown-menu"
 							aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="#">Noticia</a> <a
-								class="dropdown-item" href="#">Comentario</a>
+							<a class="dropdown-item" href="#">Notícia</a> <a
+								class="dropdown-item" href="#">Comentário</a>
 						</div></li>
 						
 					<li class="nav-item dropdown"><a
@@ -81,9 +107,10 @@
 						aria-haspopup="true" aria-expanded="false"> Excluir </a>
 						<div class="dropdown-menu"
 							aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="#">Noticia</a> <a
-								class="dropdown-item" href="#">Comentario</a>
-						</div></li>
+							<a class="dropdown-item" data-toggle="modal" data-target="#modalExcluir" onclick='openModalDelNoticia()'>Notícia</a> 
+							<a class="dropdown-item" data-toggle="modal" data-target="#modalExcluir" onclick='openModalDelComentario()'>Comentário</a>
+						</div>
+					</li>
 				</ul>
 			</div>
 		</nav>
@@ -186,6 +213,36 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="titleExcluir"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="text-obs"></div>
+					<form id="formExcluir" method="post" action="">
+						<div class="form-group">
+							<label for="id" class="col-form-label" id="labelExcluir"></label> 
+							 <input type="hidden" name="action" value="delete"/>
+							<input type="text" class="form-control" id="inputExcluir" name="id" placeholder="">
+						</div>
+				
+					<div class="modal-footer d-flex justify-content-between">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Fechar</button>
+						<button type="submit" class="btn btn-primary">Excluir</button>
+					</div>
+				</form>
+			</div>
+			</div>
+		</div>
+	</div>
 
 
 	<script src="https://kit.fontawesome.com/e71e2a1db7.js"
