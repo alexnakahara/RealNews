@@ -33,4 +33,14 @@ public class NoticiaService {
 		return dao.listNoticias() != null ? dao.listNoticias(): null;
 		
 	}
+	
+	public boolean alterar(Noticia n) {
+		if(n.getId() <= 0)
+			return false;
+		
+		NoticiaDAO dao = new NoticiaDAO();
+		return dao.update(n);
+			
+		
+	}
 }

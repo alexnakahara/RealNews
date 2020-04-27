@@ -78,7 +78,7 @@ public class NoticiaServlet extends HttpServlet {
 
 		if ("delete".equals(request.getParameter("action"))) {
 			
-			int id = Integer.parseInt(request.getParameter("id"));
+			int id = Integer.parseInt(request.getParameter("id"));//pode ser que esse cara seja um comentario tb
 			if(!service.delete(id)) {
 				builder.append("<center style='background-color: red; color: white;'>Não foi possível deletar a notícia, tente novamente!</center>");
 				
@@ -86,7 +86,24 @@ public class NoticiaServlet extends HttpServlet {
 				builder.append("<center style='background-color: green; color: white;'>Notícia deletada com sucesso!</center>");
 			}
 			
-		} else {
+		} else if("alter".equals(request.getParameter("action"))){
+			
+			int id = Integer.parseInt(request.getParameter("id_noticia"));
+			String titulo = request.getParameter("titulo");
+			String descricao = request.getParameter("descricao");
+			String texto = request.getParameter("texto");
+	
+			Noticia noticia = new Noticia(id, titulo, descricao, texto);
+			
+			if (!service.alterar(noticia)) {
+				builder.append("<center style='background-color: red; color: white;'>Não foi possível atualizar a notícia, tente novamente!</center>");
+				
+			} else {
+				
+				builder.append("<center style='background-color: green; color: white;'>Notícia atualizada com sucesso!</center>");
+			}
+			
+		}else {
 		
 			int id = Integer.parseInt(request.getParameter("id_noticia"));
 			String titulo = request.getParameter("titulo");

@@ -43,29 +43,22 @@ public class NoticiaDAO {
 		}
 	}
 
-	public Noticia getNoticia(int id) {
-
-		String query = "SELECT * FROM noticia WHERE id =?";
-
-		try (PreparedStatement pst = conexao.prepareStatement(query)) {
-
-			pst.setInt(1, id);
-			ResultSet resultado = pst.executeQuery();
-
-			Noticia n = new Noticia();
-			if (resultado.next()) {
-				// n.setId(resultado.getInt("id"));
-				n.setTitulo(resultado.getString("titulo"));
-				n.setDescricao(resultado.getString("descricao"));
-				n.setTexto(resultado.getString("texto"));
-			}
-			return n;
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			return null;
-		}
-	}
+	/*
+	 * public Noticia getNoticia(int id) {
+	 * 
+	 * String query = "SELECT * FROM noticia WHERE id =?";
+	 * 
+	 * try (PreparedStatement pst = conexao.prepareStatement(query)) {
+	 * 
+	 * pst.setInt(1, id); ResultSet resultado = pst.executeQuery();
+	 * 
+	 * Noticia n = new Noticia(); if (resultado.next()) { //
+	 * n.setId(resultado.getInt("id")); n.setTitulo(resultado.getString("titulo"));
+	 * n.setDescricao(resultado.getString("descricao"));
+	 * n.setTexto(resultado.getString("texto")); } return n;
+	 * 
+	 * } catch (SQLException ex) { ex.printStackTrace(); return null; } }
+	 */
 
 	public boolean cadastrar(Noticia noticia) {
 		String inserir = "INSERT INTO noticia(id, titulo, descricao, texto) VALUES(?, ?, ?, ?)";
@@ -87,9 +80,13 @@ public class NoticiaDAO {
 		}
 	}
 
-	public int update(Noticia noticia) {
+	public boolean update(Noticia noticia) {
 
-		String inserir = "UPDATE noticia SET titulo = ?, descricao = ?, texto = ? " + " WHERE id = ? ";
+		String inserir = "UPDATE noticia SET "
+				+ "titulo =IFNULL(?, titulo),"
+				+ "descricao = IFNULL(?, descricao),"
+				+ "texto = IFNULL(?, texto) "
+				+ "WHERE id = ?";
 
 		try (PreparedStatement pst = conexao.prepareStatement(inserir)) {
 
@@ -99,11 +96,11 @@ public class NoticiaDAO {
 			pst.setInt(4, noticia.getId());
 
 			pst.execute();
-			return 1;
+			return true;
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-			return 0;
+			return false;
 		}
 	}
 
