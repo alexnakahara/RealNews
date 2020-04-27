@@ -36,8 +36,7 @@ public class ComentarioDAO {
 	}
 	
 	public ArrayList<Comentario> listComentarios(int id_noticia) {
-
-		String query = "SELECT * FROM comentario WHERE fk_noticia_id =?";
+		String query = "SELECT * FROM comentario WHERE fk_noticia_id =? ORDER BY id DESC ";
 
 		try (PreparedStatement pst = conexao.prepareStatement(query)) {
 			pst.setInt(1, id_noticia);
@@ -61,6 +60,25 @@ public class ComentarioDAO {
 			return null;
 		}
 	} 
+	
+	public boolean delete(int id) {
+
+		String inserir = "DELETE FROM comentario WHERE id= ?";
+
+		try (PreparedStatement pst = conexao.prepareStatement(inserir)) {
+
+			pst.setInt(1, id);
+			pst.execute();
+
+			return true;
+		} catch (SQLException ex) {
+
+			System.err.println("Não foi possível deletar a partir do id");
+			ex.printStackTrace();
+			return false;
+		}
+
+	}
 	
 	
 }

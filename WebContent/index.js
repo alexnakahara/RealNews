@@ -1,5 +1,6 @@
 var asyncRequest;    
 var idPost;
+
 function start(){
     try
     {
@@ -50,11 +51,12 @@ function stateChangeComments(){
 		    let text = document.querySelector('#verComentarios'+ idPost);  
 		    
 		    if(resp === ''){
-		    	text.innerHTML = '<div class="empty-comment">Está notícia não possuí nenhum comentario no momento!</div>';
+		    	text.innerHTML = '<div class="empty-comment">Está notícia não possuí nenhum comentário no momento!</div>';
 		    }else{
 		    	text.innerHTML = resp;    
-		    	
 		    }
+		    
+		    text.style.borderTop = '1px solid';
 		    //console.log('text.innerHTML', text.innerHTML);
 		    
 		   

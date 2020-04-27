@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +25,7 @@ public class NoticiaServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		StringBuilder builder = new StringBuilder();
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html");
@@ -31,16 +33,16 @@ public class NoticiaServlet extends HttpServlet {
 		ArrayList<Noticia> lista = new ArrayList<Noticia>();
 		lista = service.listarNoticias();
 		
-		if(lista!= null) {
+		if(!lista.isEmpty()) {
 			
 			for (Noticia i : lista) {
-				builder.append("<div class='-content-noticias'>"
-						+ "<div>Titulo </div>" +
-						"<div>"+ i.getTitulo() + "</div>"+
-						"<div> Descrição</div>"+
-						"<div>"+ i.getDescricao()+ "</div>"+
-						"<div>Texto: </div>"+
-						"<div>"+ i.getTexto() + "</div>"+
+				builder.append("<div class='-content-noticias'>" +
+						"<div class='d-flex justify-content-end font-weight-light'> Notícia Id: " + i.getId() + "</div>"+
+						"<div class='body-noticia'>" +
+						"<div class='title-noticia'>"+ i.getTitulo() + "</div>"+
+						"<div class='descricao-noticia'>"+ i.getDescricao()+ "</div>"+
+						"<div class='texto-noticia'>"+ i.getTexto() + "</div>"+
+						"</div>" +
 						"<div class='content-toggles'>"+
 						"<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#exampleModal\" onclick='sendId("+ i.getId() + ")'>"
 						+ "<i class=\"far fa-comment-alt\"></i> Comentar</button>"+
@@ -53,7 +55,10 @@ public class NoticiaServlet extends HttpServlet {
 			
 		}else {
 			
-			builder.append("<center>Não possuí nenhuma nóticia no momento!</center>");
+			builder.append("<div class='no-data-content'>"
+					+ "<div>Não possuí nenhuma notícia no momento!</div>"
+					+ " <div>Cadastre clique <a class='no-data-clique' data-toggle=\"modal\" data-target=\"#modalNoticia\"> aqui </a> </div>"
+					+ "</div>");
 		}
 		
 		out.print(builder.toString());
@@ -63,40 +68,65 @@ public class NoticiaServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		int id = Integer.parseInt(request.getParameter("id"));
-		String titulo = request.getParameter("titulo");
-		String descricao = request.getParameter("descricao");
-		String texto = request.getParameter("texto");
-
+		
+		request.setCharacterEncoding("UTF-8");
+		StringBuilder builder = new StringBuilder();
 		NoticiaService service = new NoticiaService();
-		Noticia noticia = new Noticia(id, titulo, descricao, texto);
-
 		PrintWriter out = response.getWriter();
-		response.setContentType("text/html");
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
 
-		if (service.cadastrar(noticia)) {
-			out.print("Deu bomm!");
-
-		} else {
-			out.print("Deu ruim!");
+		if ("delete".equals(request.getParameter("action"))) {
+			
+			int id = Integer.parseInt(request.getParameter("id"));//pode ser que esse cara seja um comentario tb
+			if(!service.delete(id)) {
+				builder.append("<center style='background-color: red; color: white;'>Não foi possível deletar a notícia, tente novamente!</center>");
+				
+			} else {
+				builder.append("<center style='background-color: green; color: white;'>Notícia deletada com sucesso!</center>");
+			}
+			
+		} else if("alter".equals(request.getParameter("action"))){
+			
+			int id = Integer.parseInt(request.getParameter("id_noticia"));
+			String titulo = request.getParameter("titulo");
+			String descricao = request.getParameter("descricao");
+			String texto = request.getParameter("texto");
+	
+			Noticia noticia = new Noticia(id, titulo, descricao, texto);
+			
+			if (!service.alterar(noticia)) {
+				builder.append("<center style='background-color: red; color: white;'>Não foi possível atualizar a notícia, tente novamente!</center>");
+				
+			} else {
+				
+				builder.append("<center style='background-color: green; color: white;'>Notícia atualizada com sucesso!</center>");
+			}
+			
+		}else {
+		
+			int id = Integer.parseInt(request.getParameter("id_noticia"));
+			String titulo = request.getParameter("titulo");
+			String descricao = request.getParameter("descricao");
+			String texto = request.getParameter("texto");
+	
+			Noticia noticia = new Noticia(id, titulo, descricao, texto);
+	
+			
+			if (!service.cadastrar(noticia)) {
+				builder.append("<center style='background-color: red; color: white;'>Não foi possível cadastrar a notícia, tente novamente!</center>");
+				
+			} else {
+				
+				builder.append("<center style='background-color: green; color: white;'>Notícia cadastrada com sucesso!</center>");
+			}
 		}
+		
+		out.print(builder.toString());
+		RequestDispatcher rd = request.getRequestDispatcher("index.html");
+		rd.include(request, response);
 
 	}
 
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		int id = Integer.parseInt(req.getParameter("id"));
-		NoticiaService service = new NoticiaService();
-		PrintWriter out = resp.getWriter();
-		resp.setContentType("text/html");
-
-		if (service.delete(id)) {
-			out.print("Deletado com sucesso");
-
-		} else {
-			out.print("Deu ruim!");
-		}
-	}
 
 }

@@ -21,7 +21,7 @@ public class NoticiaService {
 		
 		if(id >= 1) {
 			NoticiaDAO dao = new NoticiaDAO();
-			return dao.delete(id) ? true : false;
+			return dao.deleteNoticia(id);
 		}
 		
 		return false;
@@ -31,6 +31,16 @@ public class NoticiaService {
 		NoticiaDAO dao = new NoticiaDAO();
 		
 		return dao.listNoticias() != null ? dao.listNoticias(): null;
+		
+	}
+	
+	public boolean alterar(Noticia n) {
+		if(n.getId() <= 0)
+			return false;
+		
+		NoticiaDAO dao = new NoticiaDAO();
+		return dao.update(n);
+			
 		
 	}
 }
