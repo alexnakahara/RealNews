@@ -85,7 +85,7 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNavDropdown">
 				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="index.html">Home
+					<li class="nav-item active"><a class="nav-link" href="index.jsp">Home
 							<span class="sr-only">(current)</span>
 					</a></li>
 				
