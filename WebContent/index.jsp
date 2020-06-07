@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +13,7 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 <link rel="stylesheet" href="css/style.css">
+<script src="https://kit.fontawesome.com/e71e2a1db7.js" crossorigin="anonymous"></script>
 <script src="index.js">
 	
 </script>
@@ -39,14 +43,17 @@
 	}
 	
 	function openModalDelNoticia(){
+		const text = document.querySelector('#text-obs');
 		const form = document.querySelector('#formExcluir');
 		const title = document.querySelector('#titleExcluir');
 		const label = document.querySelector('#labelExcluir');
 		const input = document.querySelector('#inputExcluir');
-		
+		const command = document.querySelector("#modalExcluirCommand");
+				
 		title.innerHTML = 'Excluir Notícia';
-		form.action = 'NoticiaServlet.do';
+		text.innerHTML = '*Se a Notícia possuir comentários, eles serão deletados também*';
 		label.innerHTML = 'Id da Notícia';
+		command.value = "NoticiaCRUD";
 		input.placeholder = 'Digite o Id da notícia que deseja excluir';
 	}
 	
@@ -56,11 +63,12 @@
 		const title = document.querySelector('#titleExcluir');
 		const label = document.querySelector('#labelExcluir');
 		const input = document.querySelector('#inputExcluir');
-		
+		const command = document.querySelector('#modalExcluirCommand');
+
 		text.innerHTML = null;
 		title.innerHTML = 'Excluir Comentário';
-		form.action = 'ComentarioServlet.do';
 		label.innerHTML = 'Id do Comentário';
+		command.value="ComentarioCRUD";
 		input.placeholder = 'Digite o Id do comentário que deseja excluir';
 	}
 </script>
@@ -99,7 +107,8 @@
 							aria-labelledby="navbarDropdownMenuLink">
 							<a class="dropdown-item" data-toggle="modal" data-target="#modalAlterNoticia" >Notícia</a> 
 							<!-- <a class="dropdown-item" href="#">Comentário</a> -->
-						</div></li>
+						</div>
+					</li>
 						
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#"
@@ -134,7 +143,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="formComentario" method="post" action="ComentarioServlet.do">
+					<form id="formComentario" method="post" action="Controller.do">
 						<div class="form-group" id="fieldIdNoticia">
 							<label for="id" class="col-form-label">Id Notícia</label> <input
 								type="text" class="form-control" id="id_noticia"
@@ -154,6 +163,8 @@
 							<label for="message-text" class="col-form-label">Comentário:</label>
 							<textarea class="form-control"
 								placeholder="Digite seu comentário" id="texto" name="texto"></textarea>
+							<input type="hidden" name="command" value="ComentarioCRUD">
+							<input type="hidden" name="action" value="cadastrar">
 						</div>
 				
 					<div class="modal-footer d-flex justify-content-between">
@@ -180,7 +191,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="formNoticia" method="POST" action="NoticiaServlet.do">
+					<form id="formNoticia" method="POST" action="Controller.do">
 						<div class="form-group">
 							<label for="id" class="col-form-label">Id Notícia</label> <input
 								type="text" class="form-control" id="id_noticia"
@@ -200,6 +211,8 @@
 							<label for="message-text" class="col-form-label">Texto</label>
 							<textarea class="form-control"
 								placeholder="Digite o texto da notícia" id="texto" name="texto"></textarea>
+							<input type="hidden" name="action" value="insert">
+							<input type="hidden" name="command" value="NoticiaCRUD">
 						</div>
 				
 					<div class="modal-footer d-flex justify-content-between">
@@ -214,7 +227,7 @@
 	</div>
 	
 		<!-- Modal de Alteração de Noticias -->
-		<div class="modal fade" id="modalAlterNoticia" tabindex="-1" role="dialog"
+	<div class="modal fade" id="modalAlterNoticia" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -226,7 +239,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="formAlterNoticia" method="POST" action="NoticiaServlet.do">
+					<form id="formAlterNoticia" method="POST" action="Controller.do">
 						<div class="form-group">
 							<label for="id" class="col-form-label">Id Notícia</label> 
 							<input type="text" class="form-control" id="id_noticia" required
@@ -244,6 +257,7 @@
 						</div>
 						<div class="form-group">
 							<input type="hidden" name="action" value="alter"/>	
+							<input type="hidden" name="command" value="NoticiaCRUD">
 							<label for="message-text" class="col-form-label">Texto</label>
 							<textarea class="form-control"
 								placeholder="Caso queira atualizar digite um texto" id="texto" name="texto"></textarea>
@@ -260,6 +274,7 @@
 		</div>
 	</div>
 
+	<!-- Modal de Remoção de Noticias  e Comentarios-->
 	<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -272,11 +287,13 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div id="text-obs">*Se a Notícia possuir comentários, eles serão deletados também*</div>
-					<form id="formExcluir" method="post" action="">
+					<div id="text-obs"></div>
+					<form id="formExcluir" method="post" action="Controller.do">
 						<div class="form-group">
 							<label for="id" class="col-form-label" id="labelExcluir"></label> 
 							 <input type="hidden" name="action" value="delete"/>
+							 <input type="hidden" id="modalExcluirCommand" name="command" value=""/>
+							 
 							<input type="text" class="form-control" id="inputExcluir" name="id" placeholder="">
 						</div>
 				
@@ -292,18 +309,16 @@
 	</div>
 
 
-	<script src="https://kit.fontawesome.com/e71e2a1db7.js"
-		crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-		crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
 </body>
 </html>

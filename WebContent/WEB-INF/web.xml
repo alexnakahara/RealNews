@@ -5,7 +5,7 @@
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-   <servlet>
+ <!--   <servlet>
       <servlet-name>Noticia</servlet-name>
       <servlet-class>servlets.NoticiaServlet</servlet-class>
    </servlet>
@@ -23,5 +23,5 @@
    <servlet-mapping>
       <servlet-name>Comentario</servlet-name>
       <url-pattern>/comentarios</url-pattern>
-   </servlet-mapping>
+   </servlet-mapping> -->
 </web-app>

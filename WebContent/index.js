@@ -1,64 +1,44 @@
-var asyncRequest;    
+window.addEventListener("load", getNoticias(), false);
+
 var idPost;
 
-function start(){
-    try
-    {
-        asyncRequest = new XMLHttpRequest();
-        asyncRequest.addEventListener("readystatechange", stateChange, false);
-        asyncRequest.open('GET', '/RealNews/NoticiaServlet.do', true);
-        asyncRequest.send(null);
-    }
-    catch(exception)
-   {
-    console.error("Request failed");
-   }
-}
+function getNoticias() {
+	const http = new XMLHttpRequest();
+	const params = `command=GetNoticias`;
+	http.open('POST', '/RealNews/Controller.do', true);
+	http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-function stateChange(){
-if(asyncRequest.readyState == 4 && asyncRequest.status == 200)
-    {
-	const titleNews = document.querySelector("#titleNews");
+	http.onreadystatechange = function() {
+		
+	    if(http.readyState == 4 && http.status == 200) {
+	    	let titleNews = document.querySelector("#titleNews");
+	        let text = document.querySelector("#bodyNoticia");         
+	        text.innerHTML = http.responseText;         
+	    } 
+	}
 	
-    var text = document.querySelector("#bodyNoticia");         
-    text.innerHTML = asyncRequest.responseText;         
-    }
+	http.send(params);
 }
 
-window.addEventListener("load", start(), false);
+function seeComments(id_post) {
+	idPost = id_post;
+	
+	const http = new XMLHttpRequest();
+    const params = `command=GetComentarios&id_noticia=${id_post}`;
+	http.open('POST', '/RealNews/Controller.do', true);
+	http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-
-function seeComments(id_post){
-	idPost = id_post
-	//console.log('Aquiii idPost', idPost);
-	try
-    {
-        asyncRequest = new XMLHttpRequest();
-        asyncRequest.addEventListener("readystatechange", stateChangeComments, false);
-        asyncRequest.open('Post', '/RealNews/ComentarioServlet.do', true);
-        asyncRequest.send(id_post);
-    }
-    catch(exception)
-   {
-    console.error("Request failed");
-   }
-}
-
-function stateChangeComments(){
-	if(asyncRequest.readyState == 4 && asyncRequest.status == 200)
-	    {
-		 	let resp = asyncRequest.responseText;
+	http.onreadystatechange = function() {
+		
+	    if(http.readyState == 4 && http.status == 200) {
+	    	
+	    	let resp = http.responseText;
 		    let text = document.querySelector('#verComentarios'+ idPost);  
 		    
-		    if(resp === ''){
-		    	text.innerHTML = '<div class="empty-comment">Está notícia não possuí nenhum comentário no momento!</div>';
-		    }else{
-		    	text.innerHTML = resp;    
-		    }
-		    
+		    text.innerHTML = resp; 
 		    text.style.borderTop = '1px solid';
-		    //console.log('text.innerHTML', text.innerHTML);
-		    
-		   
-	    }
+	    } 
 	}
+	
+	http.send(params);
+}

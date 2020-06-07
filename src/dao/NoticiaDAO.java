@@ -43,22 +43,29 @@ public class NoticiaDAO {
 		}
 	}
 
-	/*
-	 * public Noticia getNoticia(int id) {
-	 * 
-	 * String query = "SELECT * FROM noticia WHERE id =?";
-	 * 
-	 * try (PreparedStatement pst = conexao.prepareStatement(query)) {
-	 * 
-	 * pst.setInt(1, id); ResultSet resultado = pst.executeQuery();
-	 * 
-	 * Noticia n = new Noticia(); if (resultado.next()) { //
-	 * n.setId(resultado.getInt("id")); n.setTitulo(resultado.getString("titulo"));
-	 * n.setDescricao(resultado.getString("descricao"));
-	 * n.setTexto(resultado.getString("texto")); } return n;
-	 * 
-	 * } catch (SQLException ex) { ex.printStackTrace(); return null; } }
-	 */
+	public Noticia getNoticia(int id) {
+
+		String query = "SELECT * FROM noticia WHERE id =?";
+
+		try (PreparedStatement pst = conexao.prepareStatement(query)) {
+
+			pst.setInt(1, id);
+			ResultSet resultado = pst.executeQuery();
+
+			Noticia n = new Noticia();
+			if (resultado.next()) {
+				n.setId(resultado.getInt("id"));
+				n.setTitulo(resultado.getString("titulo"));
+				n.setDescricao(resultado.getString("descricao"));
+				n.setTexto(resultado.getString("texto"));
+			}
+			return n;
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
 
 	public boolean cadastrar(Noticia noticia) {
 		String inserir = "INSERT INTO noticia(id, titulo, descricao, texto) VALUES(?, ?, ?, ?)";
@@ -82,11 +89,8 @@ public class NoticiaDAO {
 
 	public boolean update(Noticia noticia) {
 
-		String inserir = "UPDATE noticia SET "
-				+ "titulo =IFNULL(?, titulo),"
-				+ "descricao = IFNULL(?, descricao),"
-				+ "texto = IFNULL(?, texto) "
-				+ "WHERE id = ?";
+		String inserir = "UPDATE noticia SET " + "titulo =IFNULL(?, titulo)," + "descricao = IFNULL(?, descricao),"
+				+ "texto = IFNULL(?, texto) " + "WHERE id = ?";
 
 		try (PreparedStatement pst = conexao.prepareStatement(inserir)) {
 
@@ -105,8 +109,8 @@ public class NoticiaDAO {
 	}
 
 	public boolean deleteNoticia(int id) {
-		
-		if(!deleteComentario(id))
+
+		if (!deleteComentario(id))
 			return false;
 
 		String inserir = "DELETE FROM noticia WHERE id= ?";
@@ -125,7 +129,7 @@ public class NoticiaDAO {
 		}
 
 	}
-	
+
 	public boolean deleteComentario(int id) {
 
 		String inserir = "DELETE FROM comentario WHERE fk_noticia_id= ?";

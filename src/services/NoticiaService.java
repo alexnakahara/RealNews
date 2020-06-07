@@ -6,6 +6,7 @@ import dao.NoticiaDAO;
 import models.Noticia;
 
 public class NoticiaService {
+	private NoticiaDAO dao = new NoticiaDAO();
 
 	public boolean cadastrar(Noticia noticia) {
 		if (noticia.getId() > 0 && noticia.getTitulo() != null && noticia.getDescricao() != null
@@ -16,31 +17,37 @@ public class NoticiaService {
 		return false;
 
 	}
-	
+
 	public boolean delete(int id) {
-		
-		if(id >= 1) {
+
+		if (id >= 1) {
 			NoticiaDAO dao = new NoticiaDAO();
 			return dao.deleteNoticia(id);
 		}
-		
+
 		return false;
 	}
-	
-	public ArrayList<Noticia>listarNoticias(){
+
+	public ArrayList<Noticia> listarNoticias() {
 		NoticiaDAO dao = new NoticiaDAO();
-		
-		return dao.listNoticias() != null ? dao.listNoticias(): null;
-		
+
+		return dao.listNoticias() != null ? dao.listNoticias() : null;
+
 	}
-	
+
 	public boolean alterar(Noticia n) {
-		if(n.getId() <= 0)
+		if (n.getId() <= 0)
 			return false;
-		
+
 		NoticiaDAO dao = new NoticiaDAO();
 		return dao.update(n);
-			
+
+	}
+
+	public Noticia getById(int id) {
 		
+		if (id <= 0) return null;
+
+		return this.dao.getNoticia(id);
 	}
 }
